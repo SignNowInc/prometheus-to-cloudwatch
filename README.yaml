@@ -70,7 +70,6 @@ usage: |-
   | environmentName                | environmentName                | Environment name from where the CloudWatch metrics come from                                               |
   | infraShortname                 | infraShortname                 | Infrastructure shortname from where the CloudWatch metrics come from.                                      |
 
-
   __NOTE__: If AWS credentials are not provided in the command-line arguments (`aws_access_key_id` and `aws_secret_access_key`)
   or ENV variables (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`),
   the chain of credential providers will search for credentials in the shared credential file and EC2 Instance Roles.
