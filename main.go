@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
@@ -13,6 +14,12 @@ import (
 	"time"
 
 	"github.com/gobwas/glob"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+)
+
+const (
+	DEFAULT_LISTEN_ADDRESS = ":9698"
+	DEFAULT_METRICS_PATH   = "/metrics"
 )
 
 var defaultForceHighRes, _ = strconv.ParseBool(os.Getenv("FORCE_HIGH_RES"))
@@ -36,6 +43,8 @@ var (
 	includeDimensionsForMetrics = flag.String("include_dimensions_for_metrics", os.Getenv("INCLUDE_DIMENSIONS_FOR_METRICS"), "Only publish the specified dimensions for metrics (semi-colon-separated key values of comma-separated dimensions of METRIC=dim1,dim2;, e.g. 'flink_jobmanager=job_id')")
 	excludeDimensionsForMetrics = flag.String("exclude_dimensions_for_metrics", os.Getenv("EXCLUDE_DIMENSIONS_FOR_METRICS"), "Never publish the specified dimensions for metrics (semi-colon-separated key values of comma-separated dimensions of METRIC=dim1,dim2;, e.g. 'flink_jobmanager=job,host;zk_up=host,pod;')")
 	forceHighRes                = flag.Bool("force_high_res", defaultForceHighRes, "Publish all metrics with high resolution, even when original metrics don't have the label "+cwHighResLabel)
+	listenAddress               = flag.String("listen_address", os.Getenv("LISTEN_ADDRESS"), fmt.Sprintf("Address to expose metrics. (default: %s)", DEFAULT_LISTEN_ADDRESS))
+	metricsPath                 = flag.String("metrics_path", os.Getenv("METRICS_PATH"), fmt.Sprintf("Path under which to expose metrics (default: %s)", DEFAULT_METRICS_PATH))
 )
 
 // kevValMustParse takes a string and exits with a message if it cannot parse as KEY=VALUE
@@ -227,5 +236,7 @@ func main() {
 		}
 	}()
 
-	bridge.Run(ctx)
+	go bridge.Run(ctx)
+	http.Handle("/metrics", promhttp.Handler())
+	http.ListenAndServe(":9698", nil)
 }
