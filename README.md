@@ -94,6 +94,13 @@ Command-line arguments take precedence over ENV vars
 | include_dimensions_for_metrics | INCLUDE_DIMENSIONS_FOR_METRICS | Only publish the specified dimensions for metrics (semi-colon-separated key values of comma-separated dimensions of METRIC=dim1,dim2;, e.g. 'flink_jobmanager=job_id')                     |
 | exclude_dimensions_for_metrics | EXCLUDE_DIMENSIONS_FOR_METRICS | Never publish the specified dimensions for metrics (semi-colon-separated key values of comma-separated dimensions of METRIC=dim1,dim2;, e.g. 'flink_jobmanager=job,host;zk_up=host,pod;')  |
 | force_high_res                 | FORCE_HIGH_RES                 | Whether publish all metrics with high resolution to Cloudwatch or only those labeled with `__cw_high_res`. |
+| listenAddress                 | LISTEN_ADDRESS                 | Address to expose metrics. Default: 9698 |
+
+| metricsPath                 | METRICS_PATH                 | Path under which to expose metrics. Default: /metrics |
+
+| environmentName                 | environmentName                 | Environment name from where the CloudWatch metrics come from |
+
+| infraShortname                 | infraShortname              | Infrastructure shortname from where the CloudWatch metrics come from. |
 
 
 __NOTE__: If AWS credentials are not provided in the command-line arguments (`aws_access_key_id` and `aws_secret_access_key`)
