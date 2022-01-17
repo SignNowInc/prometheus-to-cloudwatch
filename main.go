@@ -5,14 +5,13 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
 	"strings"
 	"syscall"
 	"time"
-
-	"net/http"
 
 	"github.com/gobwas/glob"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -237,7 +236,7 @@ func main() {
 		}
 	}()
 
+	go bridge.Run(ctx)
 	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":9698", nil)
-	bridge.Run(ctx)
 }
