@@ -7,7 +7,7 @@ require (
 	github.com/go-kit/kit v0.10.0 // indirect
 	github.com/gobwas/glob v0.2.3
 	github.com/matttproud/golang_protobuf_extensions v1.0.1
-	github.com/prometheus/client_golang v1.11.0
+	github.com/prometheus/client_golang v1.11.1
 	github.com/prometheus/client_model v0.2.0
 	github.com/prometheus/common v0.26.0
 )
